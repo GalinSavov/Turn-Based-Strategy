@@ -15,7 +15,6 @@ namespace Game.Core
             Instance = this;
         }
         
-
         public static Vector3 GetPosition()
         {
             Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());

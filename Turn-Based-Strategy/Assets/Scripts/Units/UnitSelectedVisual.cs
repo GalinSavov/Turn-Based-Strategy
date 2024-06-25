@@ -41,7 +41,5 @@ namespace Game.Units
                 spriteRenderer.enabled = false;
             }
         }
-
-
     }
 }

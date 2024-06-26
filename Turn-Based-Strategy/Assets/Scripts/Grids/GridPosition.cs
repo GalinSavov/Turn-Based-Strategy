@@ -10,11 +10,12 @@ namespace Game.Grid
             this.x = x;
             this.z = z;
         }
-
+        /*
         public override string ToString()
         {
             return "<color=#00ff00>x: " + x + ", z: " + z + "</color>";
         }
+        */
     }
 
 }

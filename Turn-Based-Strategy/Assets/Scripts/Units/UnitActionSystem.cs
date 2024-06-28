@@ -72,6 +72,10 @@ namespace Game.Units
         {
             return selectedUnit;
         }
+        public bool CheckIsValidGridPosition(GridPosition gridPosition)
+        {
+            return selectedUnit.GetMoveAction().IsValidActionGridPosition(gridPosition);
+        }
     }
 
 }

@@ -63,6 +63,14 @@ namespace Game.Grid
 
             return false;
         }
+        public int GetGridSystemWidth()
+        {
+            return width;
+        }
+        public int GetGridSystemHeight()
+        {
+            return height;
+        }
         
     }
 

@@ -55,6 +55,14 @@ namespace Game.Grid
         {
             return gridSystem.IsGridPositionWithinBounds(gridPosition);
         }
+        public int GetGridSystemWidth()
+        {
+            return gridSystem.GetGridSystemWidth();
+        }
+        public int GetGridSystemHeight()
+        {
+            return gridSystem.GetGridSystemHeight();
+        }
     }
 
 }

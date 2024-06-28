@@ -10,17 +10,19 @@ using UnityEngine.InputSystem;
 public class Test : MonoBehaviour
 {
     [SerializeField] private Unit unit;
+    [SerializeField] GridSystemVisual gridSystemVisual;
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Mouse.current.rightButton.isPressed)
+
+        if (Mouse.current.leftButton.isPressed)
         {
-            unit.GetMoveAction().GetValidActionGridPositions();
+            
         }
     }
 }

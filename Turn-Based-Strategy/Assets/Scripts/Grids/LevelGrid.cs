@@ -46,6 +46,15 @@ namespace Game.Grid
         {
             return gridSystem.GetGridPositionFromWorld(worldPosition);
         }
+        public Vector3 GetWorldPosition(GridPosition gridPosition)
+        {
+            return gridSystem.GetWorldPositionFromGrid(gridPosition) ;
+        }
+
+        public bool IsGridPositionWithinBounds(GridPosition gridPosition)
+        {
+            return gridSystem.IsGridPositionWithinBounds(gridPosition);
+        }
     }
 
 }

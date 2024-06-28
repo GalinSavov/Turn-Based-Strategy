@@ -27,8 +27,6 @@ namespace Game.Grid
                     gridObjects[x,z] = new GridObject(this, gridPosition);
                 }
             }
-
-
         }
         public Vector3 GetWorldPositionFromGrid(GridPosition gridPosition)
         {
@@ -57,7 +55,15 @@ namespace Game.Grid
         {
             return gridObjects[gridPosition.x, gridPosition.z];
         }
-   
+
+        public bool IsGridPositionWithinBounds(GridPosition gridPosition)
+        {
+            if(gridPosition.x <= width && gridPosition.x >=0 && gridPosition.z <= height && gridPosition.z >=0)
+                return true;
+
+            return false;
+        }
+        
     }
 
     

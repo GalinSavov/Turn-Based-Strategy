@@ -1,3 +1,6 @@
+using Game.Actions;
+using Game.Core;
+using Game.Grid;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,7 +33,7 @@ namespace Game.Units
             if (Mouse.current.leftButton.isPressed)
             {
                 if (TryHandleSelectedUnit()) return;
-                selectedUnit.Move();
+                ValidMoveActionGridPosition();
             }
         }
 
@@ -45,6 +48,17 @@ namespace Game.Units
                     SetSelectedUnit(unit);
                     return true;
                 }
+            }
+            return false;
+        }
+
+        private bool ValidMoveActionGridPosition()
+        {
+            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorldPosition.GetPosition());
+            if (selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
+            {
+                selectedUnit.GetMoveAction().Move(mouseGridPosition);
+                return true;
             }
             return false;
         }

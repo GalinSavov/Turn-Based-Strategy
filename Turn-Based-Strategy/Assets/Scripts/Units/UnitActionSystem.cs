@@ -18,6 +18,8 @@ namespace Game.Units
 
         public event Action OnSelectedUnitChanged;
 
+        private bool isCurrentlyInAction;
+
         private void Awake()
         {
             if (Instance != null)
@@ -30,11 +32,26 @@ namespace Game.Units
 
         void Update()
         {
+            if (isCurrentlyInAction) return;
+
             if (Mouse.current.leftButton.isPressed)
             {
                 if (TryHandleSelectedUnit()) return;
                 ValidMoveActionGridPosition();
             }
+            if (Mouse.current.rightButton.isPressed)
+            {
+                SetIsCurrentlyInAction();
+                selectedUnit.GetSpinAction().Spin(ClearIsCurrentlyInAction);
+            }
+        }
+        public void SetIsCurrentlyInAction()
+        {
+            isCurrentlyInAction = true;
+        }
+        public void ClearIsCurrentlyInAction()
+        {
+            isCurrentlyInAction = false;
         }
 
         private bool TryHandleSelectedUnit()
@@ -57,7 +74,8 @@ namespace Game.Units
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorldPosition.GetPosition());
             if (selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
             {
-                selectedUnit.GetMoveAction().Move(mouseGridPosition);
+                selectedUnit.GetMoveAction().Move(mouseGridPosition,ClearIsCurrentlyInAction);
+                SetIsCurrentlyInAction();
                 return true;
             }
             return false;

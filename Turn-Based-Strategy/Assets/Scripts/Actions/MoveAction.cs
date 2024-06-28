@@ -1,6 +1,7 @@
 using Game.Core;
 using Game.Grid;
 using Game.Units;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,7 +9,7 @@ using UnityEngine;
 
 namespace Game.Actions
 {
-    public class MoveAction : MonoBehaviour
+    public class MoveAction : BaseAction
     {
         [SerializeField] private Animator unitAnimator = null;
         [SerializeField] private int maxDistance = 2;
@@ -17,32 +18,40 @@ namespace Game.Actions
         private float rotateSpeed = 10f;
         private float stoppingDistance = 0.1f;
 
-        private Unit unit;
+       
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             targetPosition = transform.position;
-            unit = GetComponent<Unit>();
+            
         }
 
         void Update()
         {
+            if (!isActive) { return; }
+
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
             if (Vector3.Distance(targetPosition, transform.position) > stoppingDistance)
             {
                 unitAnimator.SetBool("isRunning", true);
                 transform.position += moveDirection * moveSpeed * Time.deltaTime;
-                transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
             }
             else
             {
                 unitAnimator.SetBool("isRunning", false);
+                isActive = false;
+                onActionComplete();
             }
+            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+
         }
-        public void Move(GridPosition gridPosition)
+        public void Move(GridPosition gridPosition, Action onActionComplete)
         {
             targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+            isActive = true;
+            this.onActionComplete = onActionComplete;
         }
 
         /// <summary>

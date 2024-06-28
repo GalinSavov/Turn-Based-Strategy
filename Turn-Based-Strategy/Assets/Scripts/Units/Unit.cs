@@ -11,10 +11,12 @@ namespace Game.Units
     public class Unit : MonoBehaviour
     {
         private MoveAction moveAction;
+        private SpinAction spinAction;
         private GridPosition lastGridPosition;
         private void Awake()
         {
             moveAction = GetComponent<MoveAction>();
+            spinAction = GetComponent<SpinAction>();
         }
         private void Start()
         {
@@ -40,6 +42,10 @@ namespace Game.Units
         public MoveAction GetMoveAction()
         {
             return moveAction;
+        }
+        public SpinAction GetSpinAction()
+        {
+            return spinAction;
         }
         public GridPosition GetGridPosition()
         {

@@ -88,11 +88,12 @@ namespace Game.Actions
         public bool IsValidActionGridPosition(GridPosition gridPosition)
         {
             List<GridPosition> validGridPositions = GetValidActionGridPositions();
-            foreach (var grid in validGridPositions)
-            {
-                Debug.Log(grid);
-            }
             return validGridPositions.Contains(gridPosition);
+        }
+
+        public override string GetActionName()
+        {
+            return "Move";
         }
     }
 }

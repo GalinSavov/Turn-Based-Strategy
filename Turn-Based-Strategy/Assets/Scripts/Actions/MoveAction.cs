@@ -18,13 +18,11 @@ namespace Game.Actions
         private float rotateSpeed = 10f;
         private float stoppingDistance = 0.1f;
 
-       
-
+ 
         protected override void Awake()
         {
             base.Awake();
-            targetPosition = transform.position;
-            
+            targetPosition = transform.position;  
         }
 
         void Update()
@@ -47,18 +45,11 @@ namespace Game.Actions
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
 
         }
-        public void Move(GridPosition gridPosition, Action onActionComplete)
-        {
-            targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-            isActive = true;
-            this.onActionComplete = onActionComplete;
-        }
-
         /// <summary>
         /// Set a int maximumDistance and return a new List<GridPosition> after looping through the list
         /// </summary>
         /// <returns></returns>
-        public List<GridPosition> GetValidActionGridPositions()
+        public override List<GridPosition> GetValidActionGridPositions()
         {
             List<GridPosition> validGridPositions = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPosition();
@@ -85,15 +76,16 @@ namespace Game.Actions
             return validGridPositions;
         }
 
-        public bool IsValidActionGridPosition(GridPosition gridPosition)
-        {
-            List<GridPosition> validGridPositions = GetValidActionGridPositions();
-            return validGridPositions.Contains(gridPosition);
-        }
-
         public override string GetActionName()
         {
             return "Move";
+        }
+
+        public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
+        {
+            targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+            isActive = true;
+            this.onActionComplete = onActionComplete;
         }
     }
 }

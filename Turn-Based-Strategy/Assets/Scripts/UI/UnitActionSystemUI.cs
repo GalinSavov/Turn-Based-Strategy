@@ -11,24 +11,28 @@ namespace Game.UI
     {
         [SerializeField] Transform unitActionButtonPrefab = null;
         [SerializeField] Transform unitActionButtonsContainer = null;
- 
+
+        private List<UnitActionButton> unitActionButtonList;
 
         private void OnEnable()
         {
             UnitActionSystem.Instance.OnSelectedUnitChanged += HandleSelectedUnitChanged;
+            UnitActionSystem.Instance.OnSelectedActionChanged += HandleUpdateSelectedVisual;
+        }
+        private void Awake()
+        {
+            unitActionButtonList = new List<UnitActionButton>();
         }
 
         void Start()
         {
-            CreateUnitActionButtons();
+            HandleSelectedUnitChanged();
+            HandleUpdateSelectedVisual();
         }
         private void OnDisable()
         {
-            UnitActionSystem.Instance.OnSelectedUnitChanged -= CreateUnitActionButtons;
-        }
-        private void CreateUnitActionButtons()
-        {
-            HandleSelectedUnitChanged();
+            UnitActionSystem.Instance.OnSelectedUnitChanged -= HandleSelectedUnitChanged;
+            UnitActionSystem.Instance.OnSelectedActionChanged -= HandleUpdateSelectedVisual;
         }
         private void HandleSelectedUnitChanged()
         {
@@ -37,12 +41,25 @@ namespace Game.UI
             {
                 Destroy(child.gameObject);
             }
-
+            unitActionButtonList.Clear();
+            
             Unit unit = UnitActionSystem.Instance.GetSelectedUnit();
             foreach (BaseAction action in unit.GetBaseActions())
             {
                 Transform actionButtonTransform = Instantiate(unitActionButtonPrefab, unitActionButtonsContainer);
-                actionButtonTransform.GetComponent<UnitActionButton>().SetAction(action);
+                UnitActionButton actionButton = actionButtonTransform.GetComponent<UnitActionButton>();
+                actionButton.SetAction(action);
+                unitActionButtonList.Add(actionButton);
+            }
+
+            HandleUpdateSelectedVisual();
+
+        }
+        private void HandleUpdateSelectedVisual()
+        {
+            foreach(UnitActionButton actionButton in unitActionButtonList)
+            {
+                actionButton.UpdateSelectedVisual();
             }
         }
 

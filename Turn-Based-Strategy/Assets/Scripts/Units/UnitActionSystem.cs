@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace Game.Units
@@ -13,12 +14,12 @@ namespace Game.Units
     {
         [SerializeField] private Unit selectedUnit = null;
         [SerializeField] private LayerMask unitLayerMask;
-
         public static UnitActionSystem Instance { get; private set; }
 
         public event Action OnSelectedUnitChanged;
-
+        public event Action OnSelectedActionChanged;
         private bool isCurrentlyInAction;
+        private BaseAction selectedAction;
 
         private void Awake()
         {
@@ -29,20 +30,29 @@ namespace Game.Units
             }
             Instance = this;
         }
+        private void Start()
+        {
+            SetSelectedUnit(selectedUnit);
+        }
 
         void Update()
         {
-            if (isCurrentlyInAction) return;
+            if (isCurrentlyInAction) { return; }
+            if(EventSystem.current.IsPointerOverGameObject()) { return; }
+            if (TryHandleSelectedUnit()) { return; }
+            HandleSelectedAction();  
+        }
 
+        private void HandleSelectedAction()
+        {
             if (Mouse.current.leftButton.isPressed)
             {
-                if (TryHandleSelectedUnit()) return;
-                ValidMoveActionGridPosition();
-            }
-            if (Mouse.current.rightButton.isPressed)
-            {
-                SetIsCurrentlyInAction();
-                selectedUnit.GetSpinAction().Spin(ClearIsCurrentlyInAction);
+                GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorldPosition.GetPosition());
+                if (selectedAction.IsValidGridPosition(mouseGridPosition))
+                {
+                    SetIsCurrentlyInAction();
+                    selectedAction.TakeAction(mouseGridPosition, ClearIsCurrentlyInAction);
+                }
             }
         }
         public void SetIsCurrentlyInAction()
@@ -56,43 +66,46 @@ namespace Game.Units
 
         private bool TryHandleSelectedUnit()
         {
-            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, unitLayerMask))
+            if (Mouse.current.leftButton.isPressed)
             {
-                if (hit.transform.TryGetComponent<Unit>(out Unit unit))
+                Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+
+                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, unitLayerMask))
                 {
-                    SetSelectedUnit(unit);
-                    return true;
-                }
-            }
-            return false;
-        }
+                    if (hit.transform.TryGetComponent<Unit>(out Unit unit))
+                    {
+                        if (selectedUnit == unit) return false;
 
-        private bool ValidMoveActionGridPosition()
-        {
-            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorldPosition.GetPosition());
-            if (selectedUnit.GetMoveAction().IsValidActionGridPosition(mouseGridPosition))
-            {
-                selectedUnit.GetMoveAction().Move(mouseGridPosition,ClearIsCurrentlyInAction);
-                SetIsCurrentlyInAction();
-                return true;
+                        SetSelectedUnit(unit);
+                        return true;
+                    }
+                }
             }
             return false;
         }
         private void SetSelectedUnit(Unit unit)
         {
             selectedUnit = unit;
+            SetSelectedAction(selectedUnit.GetMoveAction());
             OnSelectedUnitChanged?.Invoke();
 
+        }
+        public void SetSelectedAction(BaseAction action)
+        {
+            selectedAction = action;
+            OnSelectedActionChanged?.Invoke();
         }
         public Unit GetSelectedUnit()
         {
             return selectedUnit;
         }
+        public BaseAction GetSelectedAction()
+        {
+            return selectedAction;
+        }
         public bool CheckIsValidGridPosition(GridPosition gridPosition)
         {
-            return selectedUnit.GetMoveAction().IsValidActionGridPosition(gridPosition);
+            return selectedAction.IsValidGridPosition(gridPosition);
         }
     }
 

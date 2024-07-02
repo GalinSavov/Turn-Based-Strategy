@@ -28,7 +28,7 @@ namespace Game.Grid
         private void Update()
         {
            HideAllGridPositions();
-           ShowGridPositionsList(UnitActionSystem.Instance.GetSelectedUnit().GetMoveAction().GetValidActionGridPositions());
+           ShowGridPositionsList(UnitActionSystem.Instance.GetSelectedAction().GetValidActionGridPositions());
         }
 
         public void HideAllGridPositions()

@@ -18,6 +18,7 @@ namespace Game.Units
 
         public event Action OnSelectedUnitChanged;
         public event Action OnSelectedActionChanged;
+        public event Action<bool> OnCurrentlyInActionChanged;
         private bool isCurrentlyInAction;
         private BaseAction selectedAction;
 
@@ -58,12 +59,14 @@ namespace Game.Units
         public void SetIsCurrentlyInAction()
         {
             isCurrentlyInAction = true;
+            OnCurrentlyInActionChanged?.Invoke(isCurrentlyInAction);
         }
         public void ClearIsCurrentlyInAction()
         {
             isCurrentlyInAction = false;
+            OnCurrentlyInActionChanged?.Invoke(isCurrentlyInAction);
         }
-
+    
         private bool TryHandleSelectedUnit()
         {
             if (Mouse.current.leftButton.isPressed)

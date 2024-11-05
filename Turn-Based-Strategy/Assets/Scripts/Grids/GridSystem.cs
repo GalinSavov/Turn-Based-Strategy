@@ -8,9 +8,8 @@ namespace Game.Grid
     {
         private int width;
         private int height;
-        //used to convert the cell to world space
-        private float cellSize;
-        private GridObject[,] gridObjects; 
+        private float cellSize; //used to convert each cell to world space
+        private GridObject[,] gridObjects; //2D array 
         
         public GridSystem(int width, int height,float cellSize)
         {
@@ -24,7 +23,7 @@ namespace Game.Grid
                 for(int z = 0; z < height; z++)
                 {
                     GridPosition gridPosition = new GridPosition(x,z);
-                    gridObjects[x,z] = new GridObject(this, gridPosition);
+                    gridObjects[x,z] = new GridObject(gridPosition);
                 }
             }
         }

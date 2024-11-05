@@ -13,14 +13,15 @@ namespace Game.Units
     public class UnitActionSystem : MonoBehaviour
     {
         [SerializeField] private Unit selectedUnit = null;
+        private BaseAction selectedAction;
         [SerializeField] private LayerMask unitLayerMask;
         public static UnitActionSystem Instance { get; private set; }
 
         public event Action OnSelectedUnitChanged;
         public event Action OnSelectedActionChanged;
+        public event Action OnActionPointsSpent;
         public event Action<bool> OnCurrentlyInActionChanged;
         private bool isCurrentlyInAction;
-        private BaseAction selectedAction;
 
         private void Awake()
         {
@@ -51,22 +52,15 @@ namespace Game.Units
                 GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorldPosition.GetPosition());
                 if (selectedAction.IsValidGridPosition(mouseGridPosition))
                 {
-                    SetIsCurrentlyInAction();
-                    selectedAction.TakeAction(mouseGridPosition, ClearIsCurrentlyInAction);
+                    if (selectedUnit.CanSpendActionPointsToTakeAction(selectedAction))
+                    {
+                        SetIsCurrentlyInAction();
+                        selectedAction.TakeAction(mouseGridPosition, ClearIsCurrentlyInAction);
+                        OnActionPointsSpent?.Invoke();
+                    }
                 }
             }
         }
-        public void SetIsCurrentlyInAction()
-        {
-            isCurrentlyInAction = true;
-            OnCurrentlyInActionChanged?.Invoke(isCurrentlyInAction);
-        }
-        public void ClearIsCurrentlyInAction()
-        {
-            isCurrentlyInAction = false;
-            OnCurrentlyInActionChanged?.Invoke(isCurrentlyInAction);
-        }
-    
         private bool TryHandleSelectedUnit()
         {
             if (Mouse.current.leftButton.isPressed)
@@ -86,6 +80,17 @@ namespace Game.Units
             }
             return false;
         }
+        public void SetIsCurrentlyInAction()
+        {
+            isCurrentlyInAction = true;
+            OnCurrentlyInActionChanged?.Invoke(isCurrentlyInAction);
+        }
+        public void ClearIsCurrentlyInAction()
+        {
+            isCurrentlyInAction = false;
+            OnCurrentlyInActionChanged?.Invoke(isCurrentlyInAction);
+        }
+    
         private void SetSelectedUnit(Unit unit)
         {
             selectedUnit = unit;

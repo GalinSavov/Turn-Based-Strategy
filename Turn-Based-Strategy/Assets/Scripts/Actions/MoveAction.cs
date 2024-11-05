@@ -22,7 +22,8 @@ namespace Game.Actions
         protected override void Awake()
         {
             base.Awake();
-            targetPosition = transform.position;  
+            targetPosition = transform.position;
+            actionCost = 1;
         }
 
         void Update()
@@ -83,9 +84,8 @@ namespace Game.Actions
 
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
+            base.TakeAction(gridPosition, onActionComplete);
             targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-            isActive = true;
-            this.onActionComplete = onActionComplete;
         }
     }
 }

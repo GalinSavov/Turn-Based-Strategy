@@ -8,7 +8,6 @@ namespace Game.Grid
     public class LevelGrid : MonoBehaviour
     {
         [SerializeField] Transform cellText;
-
         private GridSystem gridSystem;
 
         public static LevelGrid Instance { get; private set; }

@@ -11,6 +11,7 @@ public class SpinAction : BaseAction
     protected override void Awake()
     {
         base.Awake();
+        actionCost = 2;
     }
     void Start()
     {
@@ -37,8 +38,7 @@ public class SpinAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        this.onActionComplete = onActionComplete;
-        isActive = true;
+        base.TakeAction(gridPosition, onActionComplete);
     }
 
     public override List<GridPosition> GetValidActionGridPositions()

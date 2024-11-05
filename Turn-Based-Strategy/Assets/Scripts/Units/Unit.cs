@@ -10,10 +10,13 @@ namespace Game.Units
 {
     public class Unit : MonoBehaviour
     {
-        private BaseAction[] baseActions;
+        private BaseAction[] baseActions; 
         private MoveAction moveAction;
         private SpinAction spinAction;
         private GridPosition lastGridPosition;
+        private int unitActionPoints = 2;
+
+        public int UnitActionPoints { get { return unitActionPoints; } set { unitActionPoints = value; }}
         private void Awake()
         {
             moveAction = GetComponent<MoveAction>();
@@ -56,6 +59,10 @@ namespace Game.Units
         public BaseAction[] GetBaseActions()
         {
             return baseActions;
+        }
+        public bool CanSpendActionPointsToTakeAction(BaseAction action)
+        {
+            return unitActionPoints >= action.GetActionCost();
         }
     }
 }

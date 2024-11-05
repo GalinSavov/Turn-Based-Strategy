@@ -10,14 +10,22 @@ public abstract class BaseAction : MonoBehaviour
     protected Unit unit;
     protected bool isActive;
     protected Action onActionComplete;
+    protected int actionCost;
 
     protected virtual void Awake()
     {
         unit = GetComponent<Unit>();
     }
     public abstract string GetActionName();
+    public int GetActionCost() { return actionCost; }
 
-    public abstract void TakeAction(GridPosition gridPosition, Action onActionComplete);
+    public virtual void TakeAction(GridPosition gridPosition, Action onActionComplete)
+    {
+        unit.UnitActionPoints -= actionCost;
+        isActive = true;
+        this.onActionComplete = onActionComplete;
+    }
+    public abstract List<GridPosition> GetValidActionGridPositions();
 
     public bool IsValidGridPosition(GridPosition gridPosition)
     {
@@ -25,5 +33,4 @@ public abstract class BaseAction : MonoBehaviour
         return validGridPositions.Contains(gridPosition);
     }
 
-    public abstract List<GridPosition> GetValidActionGridPositions();
 }

@@ -7,15 +7,12 @@ namespace Game.Grid
 {
     public class GridObject
     {
-        private GridSystem gridSystem;
         private GridPosition gridPosition;
         private List<Unit> units;
-        public GridObject(GridSystem gridSystem, GridPosition gridPosition)
+        public GridObject(GridPosition gridPosition)
         {
-            this.gridSystem = gridSystem;
             this.gridPosition = gridPosition;
-            units = new List<Unit>();
-            
+            units = new List<Unit>(); 
         }
         public void AddUnit(Unit unit)
         {
@@ -41,9 +38,9 @@ namespace Game.Grid
                 unitStr += unit.name;
             }
             if(unitStr != null)
-                return "x: " + gridPosition.x + ", z: " + gridPosition.z + "\n" + unitStr;
+                return gridPosition.ToString() + "\n" + unitStr;
 
-            return "x: " + gridPosition.x + ", z: " + gridPosition.z;
+            return gridPosition.ToString();
         }
     }
 

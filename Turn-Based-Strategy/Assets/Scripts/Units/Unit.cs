@@ -1,6 +1,7 @@
 using Game.Actions;
 using Game.Core;
 using Game.Grid;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,11 +11,12 @@ namespace Game.Units
 {
     public class Unit : MonoBehaviour
     {
+        private const int ACTION_POINTS_MAX = 3;
         private BaseAction[] baseActions; 
         private MoveAction moveAction;
         private SpinAction spinAction;
         private GridPosition lastGridPosition;
-        private int unitActionPoints = 2;
+        private int unitActionPoints = ACTION_POINTS_MAX;
 
         public int UnitActionPoints { get { return unitActionPoints; } set { unitActionPoints = value; }}
         private void Awake()
@@ -25,9 +27,19 @@ namespace Game.Units
         }
         private void Start()
         {
+            TurnSystem.instance.OnTurnChanged += HandleOnTurnChanged;
             lastGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             LevelGrid.Instance.AddUnitAtGridPosition(this, lastGridPosition);
         }
+        private void OnDisable()
+        {
+            TurnSystem.instance.OnTurnChanged -= HandleOnTurnChanged;
+        }
+        private void HandleOnTurnChanged()
+        {
+            unitActionPoints = ACTION_POINTS_MAX;
+        }
+
         private void Update()
         {
             UpdateUnitGridPosition();

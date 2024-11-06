@@ -40,6 +40,7 @@ namespace Game.Units
         void Update()
         {
             if (isCurrentlyInAction) { return; }
+            if (!TurnSystem.instance.GetIsPlayerTurn()) { return; }
             if(EventSystem.current.IsPointerOverGameObject()) { return; }
             if (TryHandleSelectedUnit()) { return; }
             HandleSelectedAction();  
@@ -73,8 +74,11 @@ namespace Game.Units
                     {
                         if (selectedUnit == unit) return false;
 
-                        SetSelectedUnit(unit);
-                        return true;
+                        if (!unit.GetIsEnemy())
+                        {
+                            SetSelectedUnit(unit);
+                            return true;
+                        }
                     }
                 }
             }

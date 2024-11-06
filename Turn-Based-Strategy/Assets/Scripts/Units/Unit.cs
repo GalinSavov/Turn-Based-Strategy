@@ -17,6 +17,7 @@ namespace Game.Units
         private SpinAction spinAction;
         private GridPosition lastGridPosition;
         private int unitActionPoints = ACTION_POINTS_MAX;
+        [SerializeField] private bool isEnemy = false;
 
         public int UnitActionPoints { get { return unitActionPoints; } set { unitActionPoints = value; }}
         private void Awake()
@@ -37,9 +38,10 @@ namespace Game.Units
         }
         private void HandleOnTurnChanged()
         {
+            if(isEnemy && !TurnSystem.instance.GetIsPlayerTurn() ||
+               !isEnemy && TurnSystem.instance.GetIsPlayerTurn()) 
             unitActionPoints = ACTION_POINTS_MAX;
         }
-
         private void Update()
         {
             UpdateUnitGridPosition();
@@ -55,6 +57,10 @@ namespace Game.Units
                 lastGridPosition = newGridPosition;
             }
 
+        }
+        public bool CanSpendActionPointsToTakeAction(BaseAction action)
+        {
+            return unitActionPoints >= action.GetActionCost();
         }
         public MoveAction GetMoveAction()
         {
@@ -72,9 +78,9 @@ namespace Game.Units
         {
             return baseActions;
         }
-        public bool CanSpendActionPointsToTakeAction(BaseAction action)
+        public bool GetIsEnemy()
         {
-            return unitActionPoints >= action.GetActionCost();
+            return isEnemy;
         }
     }
 }

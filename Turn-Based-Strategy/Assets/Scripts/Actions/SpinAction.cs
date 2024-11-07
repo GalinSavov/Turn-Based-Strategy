@@ -7,15 +7,10 @@ using UnityEngine;
 public class SpinAction : BaseAction
 {
     private float degrees = 0;
-
     protected override void Awake()
     {
         base.Awake();
         actionCost = 2;
-    }
-    void Start()
-    {
-        isActive = false;
     }
     void Update()
     {
@@ -26,9 +21,8 @@ public class SpinAction : BaseAction
         degrees += spinAmount;
         if (degrees >= 360)
         {
-            isActive = false;
             degrees = 0;
-            onActionComplete();
+            FinishAction();
         }
     }
     public override string GetActionName()

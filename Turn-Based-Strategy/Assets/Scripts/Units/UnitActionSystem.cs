@@ -74,7 +74,7 @@ namespace Game.Units
                     {
                         if (selectedUnit == unit) return false;
 
-                        if (!unit.GetIsEnemy())
+                        if (!unit.IsEnemy())
                         {
                             SetSelectedUnit(unit);
                             return true;

@@ -58,6 +58,10 @@ namespace Game.Units
             }
 
         }
+        public void Damage()
+        {
+            Debug.Log(gameObject.name + " was damaged!");
+        }
         public bool CanSpendActionPointsToTakeAction(BaseAction action)
         {
             return unitActionPoints >= action.GetActionCost();
@@ -78,7 +82,7 @@ namespace Game.Units
         {
             return baseActions;
         }
-        public bool GetIsEnemy()
+        public bool IsEnemy()
         {
             return isEnemy;
         }

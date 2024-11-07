@@ -11,6 +11,7 @@ public abstract class BaseAction : MonoBehaviour
     protected bool isActive;
     protected Action onActionComplete;
     protected int actionCost;
+    [SerializeField] protected int maxDistanceForActionExecution;
 
     protected virtual void Awake()
     {
@@ -24,6 +25,11 @@ public abstract class BaseAction : MonoBehaviour
         unit.UnitActionPoints -= actionCost;
         isActive = true;
         this.onActionComplete = onActionComplete;
+    }
+    protected void FinishAction()
+    {
+        isActive = false;
+        onActionComplete();
     }
     public abstract List<GridPosition> GetValidActionGridPositions();
 

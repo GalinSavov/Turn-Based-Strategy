@@ -37,6 +37,10 @@ namespace Game.Grid
             List<Unit> units = gridSystem.GetGridObject(gridPosition).GetUnitList();
             return units;
         }
+        public Unit GetUnitAtGridPosition(GridPosition gridPosition)
+        {
+            return GetUnitsAtGridPosition(gridPosition)[0];
+        }
         public void RemoveUnitAtGridPosition(Unit unit, GridPosition gridPosition)
         {
             gridSystem.GetGridObject(gridPosition).RemoveUnitFromList(unit);

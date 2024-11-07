@@ -12,7 +12,6 @@ namespace Game.Actions
     public class MoveAction : BaseAction
     {
         [SerializeField] private Animator unitAnimator = null;
-        [SerializeField] private int maxDistance = 2;
         private Vector3 targetPosition;
         private float moveSpeed = 2f;
         private float rotateSpeed = 10f;
@@ -24,6 +23,7 @@ namespace Game.Actions
             base.Awake();
             targetPosition = transform.position;
             actionCost = 1;
+            maxDistanceForActionExecution = 2;
         }
 
         void Update()
@@ -40,8 +40,7 @@ namespace Game.Actions
             else
             {
                 unitAnimator.SetBool("isRunning", false);
-                isActive = false;
-                onActionComplete();
+                FinishAction();
             }
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
 
@@ -55,9 +54,9 @@ namespace Game.Actions
             List<GridPosition> validGridPositions = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPosition();
 
-            for (int x = -maxDistance; x <= maxDistance; x++)
+            for (int x = -maxDistanceForActionExecution; x <= maxDistanceForActionExecution; x++)
             {
-                for (int z = -maxDistance; z <= maxDistance; z++)
+                for (int z = -maxDistanceForActionExecution; z <= maxDistanceForActionExecution; z++)
                 {
                     GridPosition offsetGridPosition = new GridPosition(x, z);
                     GridPosition validGridPosition = unitGridPosition + offsetGridPosition;

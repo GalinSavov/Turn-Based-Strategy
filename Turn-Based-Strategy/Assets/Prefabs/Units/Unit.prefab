@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 7225839380538705888}
   - component: {fileID: 357204500875248821}
   - component: {fileID: 1336794903003696385}
+  - component: {fileID: 5469561334801266213}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -164,6 +165,7 @@ MonoBehaviour:
   aimingStateTime: 1.5
   shootingStateTime: 0.2
   coolingStateTime: 0.5
+  shootDamageAmount: 20
 --- !u!114 &357204500875248821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,6 +195,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
+--- !u!114 &5469561334801266213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264491033231720698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee8c4a53806b494798c4e33ac340ff7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitRagdollPrefab: {fileID: 5345673907479868611, guid: f90ca3b74c93a234487d87677fe0f227,
+    type: 3}
+  originalUnitRootBone: {fileID: 0}
 --- !u!1 &8362986184617749299
 GameObject:
   m_ObjectHideFlags: 0

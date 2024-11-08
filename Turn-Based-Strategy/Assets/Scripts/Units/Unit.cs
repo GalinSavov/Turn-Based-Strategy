@@ -17,6 +17,7 @@ namespace Game.Units
         private SpinAction spinAction;
         private GridPosition lastGridPosition;
         private int unitActionPoints = ACTION_POINTS_MAX;
+        private Health unitHealth;
         [SerializeField] private bool isEnemy = false;
 
         public int UnitActionPoints { get { return unitActionPoints; } set { unitActionPoints = value; }}
@@ -25,12 +26,18 @@ namespace Game.Units
             moveAction = GetComponent<MoveAction>();
             spinAction = GetComponent<SpinAction>();
             baseActions = GetComponents<BaseAction>();
+            unitHealth = GetComponent<Health>();
         }
         private void Start()
         {
             TurnSystem.instance.OnTurnChanged += HandleOnTurnChanged;
+            unitHealth.OnDead += HandleUnitOnDie;
             lastGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             LevelGrid.Instance.AddUnitAtGridPosition(this, lastGridPosition);
+        }
+        private void Update()
+        {
+            UpdateUnitGridPosition();
         }
         private void OnDisable()
         {
@@ -42,10 +49,12 @@ namespace Game.Units
                !isEnemy && TurnSystem.instance.GetIsPlayerTurn()) 
             unitActionPoints = ACTION_POINTS_MAX;
         }
-        private void Update()
+        private void HandleUnitOnDie()
         {
-            UpdateUnitGridPosition();
+            LevelGrid.Instance.RemoveUnitAtGridPosition(this, lastGridPosition);
+            Destroy(gameObject);
         }
+       
         public void UpdateUnitGridPosition()
         {
 
@@ -58,9 +67,9 @@ namespace Game.Units
             }
 
         }
-        public void Damage()
+        public void TakeDamage(int amount)
         {
-            Debug.Log(gameObject.name + " was damaged!");
+            unitHealth.TakeDamage(amount);
         }
         public bool CanSpendActionPointsToTakeAction(BaseAction action)
         {

@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7d22fc6b9a431b043a917fb89a80bcfc, type: 2}
+    - target: {fileID: 1336794903003696385, guid: 2bdce698505469b449ab05808969427c,
+        type: 3}
+      propertyPath: startingHealth
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 7948636681604976017, guid: 2bdce698505469b449ab05808969427c,
         type: 3}
       propertyPath: isEnemy
@@ -26,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 8992601483772969420, guid: 2bdce698505469b449ab05808969427c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8992601483772969420, guid: 2bdce698505469b449ab05808969427c,
         type: 3}
@@ -36,7 +41,7 @@ PrefabInstance:
     - target: {fileID: 8992601483772969420, guid: 2bdce698505469b449ab05808969427c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8992601483772969420, guid: 2bdce698505469b449ab05808969427c,
         type: 3}

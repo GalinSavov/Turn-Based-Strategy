@@ -20,6 +20,8 @@ public class ShootAction : BaseAction
     [SerializeField] private float aimingStateTime = 1.5f;
     [SerializeField] private float shootingStateTime = 0.2f;
     [SerializeField] private float coolingStateTime = 0.5f;
+    [SerializeField] private int shootDamageAmount = 20;
+    
     protected override void Awake()
     {
         base.Awake();
@@ -58,7 +60,7 @@ public class ShootAction : BaseAction
     private void Shoot()
     {
         OnShootBegin?.Invoke(targetUnit);
-        targetUnit.Damage();
+        targetUnit.TakeDamage(shootDamageAmount);
     }
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {

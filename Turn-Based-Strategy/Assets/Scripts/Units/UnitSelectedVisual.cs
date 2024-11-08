@@ -21,7 +21,7 @@ namespace Game.Units
             UpdateSpriteVisual();
             UnitActionSystem.Instance.OnSelectedUnitChanged += HandleOnSelectedUnitChanged;
         }
-        private void OnDisable()
+        private void OnDestroy()
         {
             UnitActionSystem.Instance.OnSelectedUnitChanged -= HandleOnSelectedUnitChanged;
         }

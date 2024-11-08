@@ -11,7 +11,8 @@ namespace Game.Actions
 {
     public class MoveAction : BaseAction
     {
-        [SerializeField] private Animator unitAnimator = null;
+        public Action OnMoveStart;
+        public Action OnMoveEnd;
         private Vector3 targetPosition;
         private float moveSpeed = 2f;
         private float rotateSpeed = 10f;
@@ -34,21 +35,16 @@ namespace Game.Actions
 
             if (Vector3.Distance(targetPosition, transform.position) > stoppingDistance)
             {
-                unitAnimator.SetBool("isRunning", true);
                 transform.position += moveDirection * moveSpeed * Time.deltaTime;
             }
             else
             {
-                unitAnimator.SetBool("isRunning", false);
+                OnMoveEnd?.Invoke();
                 FinishAction();
             }
             transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
 
         }
-        /// <summary>
-        /// Set a int maximumDistance and return a new List<GridPosition> after looping through the list
-        /// </summary>
-        /// <returns></returns>
         public override List<GridPosition> GetValidActionGridPositions()
         {
             List<GridPosition> validGridPositions = new List<GridPosition>();
@@ -85,6 +81,7 @@ namespace Game.Actions
         {
             base.TakeAction(gridPosition, onActionComplete);
             targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+            OnMoveStart?.Invoke();
         }
     }
 }

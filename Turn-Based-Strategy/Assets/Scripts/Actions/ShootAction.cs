@@ -8,12 +8,14 @@ using UnityEngine.EventSystems;
 
 public class ShootAction : BaseAction
 {
-    private enum State { Aiming,Shooting,Cooloff}
+    private enum State { Aiming,Shooting,Cooloff }
     private State state;
     private float stateTimer;
     private Unit targetUnit;
     private bool canShootBullet;
     private Coroutine rotateAndAimCoroutine;
+    public Action OnShootBegin;
+
     [SerializeField] private float rotateSpeed = 5f;
     [SerializeField] private float aimingStateTime = 1.5f;
     [SerializeField] private float shootingStateTime = 0.2f;
@@ -33,7 +35,6 @@ public class ShootAction : BaseAction
         state = State.Aiming;
         rotateAndAimCoroutine = StartCoroutine(RotateAndAimAtTarget());
         yield return new WaitForSeconds(aimingStateTime);
-        StopCoroutine(rotateAndAimCoroutine);
 
         state = State.Shooting;
         if(canShootBullet)
@@ -56,8 +57,8 @@ public class ShootAction : BaseAction
     }
     private void Shoot()
     {
+        OnShootBegin?.Invoke();
         targetUnit.Damage();
-
     }
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
@@ -98,6 +99,4 @@ public class ShootAction : BaseAction
         }
         return validGridPositions;
     }
-   
-   
 }

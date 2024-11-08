@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2090442040359850254}
   - component: {fileID: 6407082510836758405}
   - component: {fileID: 7225839380538705888}
+  - component: {fileID: 357204500875248821}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -100,8 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886c9d373ffab94479ec9e99952757d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxDistanceForActionExecution: 0
   unitAnimator: {fileID: 888832120618537908}
-  maxDistance: 1
 --- !u!114 &6407082510836758405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,6 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe6426473519c6841bf85ab11512c101, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxDistanceForActionExecution: 0
 --- !u!114 &7225839380538705888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +128,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f00b65d45c2f74548a69bf0289d52bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxDistanceForActionExecution: 0
+  rotateSpeed: 5
+  aimingStateTime: 1.5
+  shootingStateTime: 0.2
+  coolingStateTime: 0.5
+--- !u!114 &357204500875248821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264491033231720698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9508c89bbeccf4844b2b05a86e8c26bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitAnimator: {fileID: 888832120618537908}
 --- !u!1 &8362986184617749299
 GameObject:
   m_ObjectHideFlags: 0

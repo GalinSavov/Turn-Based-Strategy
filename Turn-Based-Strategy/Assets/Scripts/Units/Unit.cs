@@ -66,6 +66,10 @@ namespace Game.Units
         {
             return unitActionPoints >= action.GetActionCost();
         }
+        public bool IsEnemy()
+        {
+            return isEnemy;
+        }
         public MoveAction GetMoveAction()
         {
             return moveAction;
@@ -81,10 +85,6 @@ namespace Game.Units
         public BaseAction[] GetBaseActions()
         {
             return baseActions;
-        }
-        public bool IsEnemy()
-        {
-            return isEnemy;
         }
     }
 }

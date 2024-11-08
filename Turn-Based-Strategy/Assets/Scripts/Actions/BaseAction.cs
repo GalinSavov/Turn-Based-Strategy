@@ -11,7 +11,7 @@ public abstract class BaseAction : MonoBehaviour
     protected bool isActive;
     protected Action onActionComplete;
     protected int actionCost;
-    [SerializeField] protected int maxDistanceForActionExecution;
+    [SerializeField] protected int maxDistanceForActionExecution; // exceeding this number of grids will make the action out of range
 
     protected virtual void Awake()
     {

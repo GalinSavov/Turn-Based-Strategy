@@ -14,7 +14,7 @@ public class ShootAction : BaseAction
     private Unit targetUnit;
     private bool canShootBullet;
     private Coroutine rotateAndAimCoroutine;
-    public Action OnShootBegin;
+    public Action<Unit> OnShootBegin;
 
     [SerializeField] private float rotateSpeed = 5f;
     [SerializeField] private float aimingStateTime = 1.5f;
@@ -57,7 +57,7 @@ public class ShootAction : BaseAction
     }
     private void Shoot()
     {
-        OnShootBegin?.Invoke();
+        OnShootBegin?.Invoke(targetUnit);
         targetUnit.Damage();
     }
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)

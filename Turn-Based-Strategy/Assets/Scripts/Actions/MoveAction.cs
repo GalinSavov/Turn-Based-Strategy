@@ -79,9 +79,9 @@ namespace Game.Actions
 
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
-            base.TakeAction(gridPosition, onActionComplete);
             targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
             OnMoveStart?.Invoke();
+            base.TakeAction(gridPosition, onActionComplete);
         }
     }
 }

@@ -7,6 +7,8 @@ using UnityEngine;
 
 public abstract class BaseAction : MonoBehaviour
 {
+    public static Action<BaseAction> OnAnyActionStarted;
+    public static Action<BaseAction> OnAnyActionFinished;
     protected Unit unit;
     protected bool isActive;
     protected Action onActionComplete;
@@ -17,26 +19,28 @@ public abstract class BaseAction : MonoBehaviour
     {
         unit = GetComponent<Unit>();
     }
-    public abstract string GetActionName();
-    public int GetActionCost() { return actionCost; }
-
     public virtual void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         unit.UnitActionPoints -= actionCost;
         isActive = true;
         this.onActionComplete = onActionComplete;
+        OnAnyActionStarted?.Invoke(this);
     }
     protected void FinishAction()
     {
         isActive = false;
         onActionComplete();
+        OnAnyActionFinished?.Invoke(this);
     }
-    public abstract List<GridPosition> GetValidActionGridPositions();
-
     public bool IsValidGridPosition(GridPosition gridPosition)
     {
         List<GridPosition> validGridPositions = GetValidActionGridPositions();
         return validGridPositions.Contains(gridPosition);
     }
+    public Unit GetUnit() { return unit; }
+    public abstract string GetActionName();
+    public int GetActionCost() { return actionCost; }
+    public abstract List<GridPosition> GetValidActionGridPositions();
+
 
 }

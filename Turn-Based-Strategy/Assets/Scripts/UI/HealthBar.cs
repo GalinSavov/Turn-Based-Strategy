@@ -9,6 +9,7 @@ public class HealthBar : MonoBehaviour
     private void Awake()
     {
         unitHealth.OnDamageTaken += HandleOnDamageTaken;
+
     }
     private void Start()
     {

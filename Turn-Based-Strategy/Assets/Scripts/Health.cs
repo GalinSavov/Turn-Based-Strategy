@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     [SerializeField] private int startingHealth = 100;
     private int currentHealth;
     public Action OnDead;
+    public Action OnDamageTaken;
 
     private void Awake()
     {
@@ -18,6 +19,7 @@ public class Health : MonoBehaviour
         if(currentHealth - damage > 0)
         {
             currentHealth -= damage;
+            OnDamageTaken?.Invoke();
             return true;
         }
         else
@@ -25,5 +27,9 @@ public class Health : MonoBehaviour
             OnDead?.Invoke();
             return false;
         }
+    }
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
     }
 }

@@ -6,15 +6,16 @@ namespace Game.Grid
 {
     public class GridSystemVisualSingle : MonoBehaviour
     {
-        [SerializeField] private MeshRenderer MeshRenderer= null;
+        [SerializeField] private MeshRenderer meshRenderer = null;
 
-        public void Show()
+        public void Show(Material gridMaterial)
         {
-            MeshRenderer.enabled = true;
+            meshRenderer.enabled = true;
+            meshRenderer.material = gridMaterial;
         }
         public void Hide()
         {
-            MeshRenderer.enabled = false;
+            meshRenderer.enabled = false;
         }
     }
 

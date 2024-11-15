@@ -19,7 +19,6 @@ namespace Game.Units
         private int unitActionPoints = ACTION_POINTS_MAX;
         private Health unitHealth;
         [SerializeField] private bool isEnemy = false;
-
         public int UnitActionPoints { get { return unitActionPoints; } set { unitActionPoints = value; }}
         private void Awake()
         {
@@ -61,9 +60,9 @@ namespace Game.Units
             GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             if (newGridPosition != lastGridPosition)
             {
-                LevelGrid.Instance.RemoveUnitAtGridPosition(this, lastGridPosition);
-                LevelGrid.Instance.AddUnitAtGridPosition(this, newGridPosition);
+                LevelGrid.Instance.UnitMovedGridPosition(this, lastGridPosition, newGridPosition);
                 lastGridPosition = newGridPosition;
+                LevelGrid.Instance.OnUnitGridPositionChanged?.Invoke();
             }
 
         }

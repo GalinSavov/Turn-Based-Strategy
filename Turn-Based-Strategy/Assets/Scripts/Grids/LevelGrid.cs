@@ -1,4 +1,5 @@
 using Game.Units;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace Game.Grid
     {
         [SerializeField] Transform cellText;
         private GridSystem gridSystem;
+        public Action OnUnitGridPositionChanged;
 
         public static LevelGrid Instance { get; private set; }
 
@@ -31,6 +33,18 @@ namespace Game.Grid
         {
             GridObject gridObject = gridSystem.GetGridObject(gridPosition);
             gridObject.AddUnit(unit);
+            OnUnitGridPositionChanged?.Invoke();
+        }
+        public void RemoveUnitAtGridPosition(Unit unit, GridPosition gridPosition)
+        {
+            gridSystem.GetGridObject(gridPosition).RemoveUnitFromList(unit);
+            OnUnitGridPositionChanged?.Invoke();
+        }
+
+        public void UnitMovedGridPosition(Unit unit, GridPosition fromGridPosition,GridPosition toGridPosition)
+        {
+            RemoveUnitAtGridPosition(unit, fromGridPosition);
+            AddUnitAtGridPosition(unit,toGridPosition);
         }
         public List<Unit> GetUnitsAtGridPosition(GridPosition gridPosition)
         {
@@ -40,10 +54,6 @@ namespace Game.Grid
         public Unit GetUnitAtGridPosition(GridPosition gridPosition)
         {
             return GetUnitsAtGridPosition(gridPosition)[0];
-        }
-        public void RemoveUnitAtGridPosition(Unit unit, GridPosition gridPosition)
-        {
-            gridSystem.GetGridObject(gridPosition).RemoveUnitFromList(unit);
         }
         public GridPosition GetGridPosition(Vector3 worldPosition)
         {

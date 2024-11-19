@@ -19,6 +19,8 @@ namespace Game.Units
         private int unitActionPoints = ACTION_POINTS_MAX;
         private Health unitHealth;
         [SerializeField] private bool isEnemy = false;
+        public static Action<Unit> OnAnyUnitSpawned;
+        public static Action<Unit> OnAnyUnitDead;
         public int UnitActionPoints { get { return unitActionPoints; } set { unitActionPoints = value; }}
         private void Awake()
         {
@@ -31,6 +33,7 @@ namespace Game.Units
         {
             TurnSystem.instance.OnTurnChanged += HandleOnTurnChanged;
             unitHealth.OnDead += HandleUnitOnDie;
+            OnAnyUnitSpawned?.Invoke(this);
             lastGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             LevelGrid.Instance.AddUnitAtGridPosition(this, lastGridPosition);
         }
@@ -51,6 +54,7 @@ namespace Game.Units
         private void HandleUnitOnDie()
         {
             LevelGrid.Instance.RemoveUnitAtGridPosition(this, lastGridPosition);
+            OnAnyUnitDead?.Invoke(this);
             Destroy(gameObject);
         }
        

@@ -10,7 +10,7 @@ public class SpinAction : BaseAction
     protected override void Awake()
     {
         base.Awake();
-        actionCost = 2;
+        actionCost = 1;
     }
     void Update()
     {

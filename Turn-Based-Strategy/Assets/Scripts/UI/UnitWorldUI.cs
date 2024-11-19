@@ -13,7 +13,14 @@ public class UnitWorldUI : MonoBehaviour
     private void Awake()
     {
         UnitActionSystem.Instance.OnActionPointsSpent += HandleActionPointsSpent;
+        EnemyAI.OnActionPointsSpent += HandleEnemyActionPointsSpent;
     }
+
+    private void HandleEnemyActionPointsSpent()
+    {
+        UpdateActionPointsText();
+    }
+
     private void Start()
     {
         UpdateActionPointsText();

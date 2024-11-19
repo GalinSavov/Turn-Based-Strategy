@@ -26,7 +26,7 @@ public class ShootAction : BaseAction
     {
         base.Awake();
         actionCost = 1;
-        maxDistanceForActionExecution = 3;
+        maxDistanceForActionExecution = 2;
     }
     void Update()
     {
@@ -73,11 +73,16 @@ public class ShootAction : BaseAction
     {
         return "Shoot";
     }
+    //used for friendly units
     public override List<GridPosition> GetValidActionGridPositions()
     {
-        List<GridPosition> validGridPositions = new List<GridPosition>();
         GridPosition unitGridPosition = unit.GetGridPosition();
-
+        return GetValidActionGridPositions(unitGridPosition);
+    }
+    //used for enemy units
+    public List<GridPosition> GetValidActionGridPositions(GridPosition unitGridPosition)
+    {
+        List<GridPosition> validGridPositions = new List<GridPosition>();
         for (int x = -maxDistanceForActionExecution; x <= maxDistanceForActionExecution; x++)
         {
             for (int z = -maxDistanceForActionExecution; z <= maxDistanceForActionExecution; z++)
@@ -101,6 +106,7 @@ public class ShootAction : BaseAction
         }
         return validGridPositions;
     }
+   
     public Unit GetTargetUnit()
     {
         return targetUnit;
@@ -108,6 +114,16 @@ public class ShootAction : BaseAction
     public int GetActionRange()
     {
         return maxDistanceForActionExecution;
-
     }
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+        int targetUnitHealth = targetUnit.GetUnitHealth();
+        return new EnemyAIAction() { gridPosition = gridPosition, actionValue = 100 + (100 - targetUnitHealth)};
+    }
+    public int GetTargetCountAtGridPosition(GridPosition gridPosition)
+    {
+        return GetValidActionGridPositions(gridPosition).Count;
+    }
+
 }

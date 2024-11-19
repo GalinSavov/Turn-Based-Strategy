@@ -708,7 +708,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitRagdollPrefab: {fileID: 5345673907479868611, guid: f90ca3b74c93a234487d87677fe0f227,
     type: 3}
-  originalUnitRootBone: {fileID: 0}
+  originalUnitRootBone: {fileID: 8992601483772969420}
 --- !u!1 &8362986184617749299
 GameObject:
   m_ObjectHideFlags: 0

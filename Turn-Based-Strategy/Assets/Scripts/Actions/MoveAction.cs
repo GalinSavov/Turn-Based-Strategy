@@ -76,7 +76,11 @@ namespace Game.Actions
         {
             return "Move";
         }
-
+        public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+        {
+            int targetCountAtGridPosition = unit.GetShootAction().GetTargetCountAtGridPosition(gridPosition);
+            return new EnemyAIAction() { gridPosition = gridPosition, actionValue = (targetCountAtGridPosition * 10) + 1};
+        }
         public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
             targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);

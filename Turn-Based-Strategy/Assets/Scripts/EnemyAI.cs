@@ -82,26 +82,46 @@ public class EnemyAI : MonoBehaviour
     }
     private bool TryTakeEnemyAIAction(Game.Units.Unit enemyUnit,Action onActionComplete)
     {
-        SpinAction spinAction = enemyUnit.GetSpinAction();
-        GridPosition actionGridPosition = enemyUnit.GetGridPosition();
-        if (spinAction.IsValidGridPosition(actionGridPosition))
+
+        EnemyAIAction bestEnemyAIAction = null;
+        BaseAction bestBaseAction = null;
+
+        foreach (BaseAction baseAction in enemyUnit.GetBaseActions())
         {
-            if (enemyUnit.CanSpendActionPointsToTakeAction(spinAction))
+            if (!enemyUnit.CanSpendActionPointsToTakeAction(baseAction))
             {
-                spinAction.TakeAction(actionGridPosition, onActionComplete);
-                OnActionPointsSpent?.Invoke();
-                return true;
+                continue;
             }
-            else 
+            if(bestEnemyAIAction == null)
             {
-                return false; 
+                bestEnemyAIAction = baseAction.GetBestEnemyAIAction();
+                bestBaseAction = baseAction;
+            }
+            else
+            {
+                EnemyAIAction testEnemyAIAction = baseAction.GetBestEnemyAIAction();
+                if(testEnemyAIAction != null && testEnemyAIAction.actionValue > bestEnemyAIAction.actionValue)
+                {
+                    bestEnemyAIAction = testEnemyAIAction;
+                    bestBaseAction = baseAction;
+                }
             }
         }
-        return false;
+
+        if (bestEnemyAIAction != null && enemyUnit.CanSpendActionPointsToTakeAction(bestBaseAction))
+        {
+            bestBaseAction.TakeAction(bestEnemyAIAction.gridPosition, onActionComplete);
+            OnActionPointsSpent?.Invoke();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     private void SetStateTakingTurn()
     {
-        timer = 0.5f;
+        timer = 0.75f;
         currentEnemyState = State.TakingTurn;
     }
 }

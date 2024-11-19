@@ -15,6 +15,7 @@ namespace Game.Units
         private BaseAction[] baseActions; 
         private MoveAction moveAction;
         private SpinAction spinAction;
+        private ShootAction shootAction;
         private GridPosition lastGridPosition;
         private int unitActionPoints = ACTION_POINTS_MAX;
         private Health unitHealth;
@@ -26,6 +27,7 @@ namespace Game.Units
         {
             moveAction = GetComponent<MoveAction>();
             spinAction = GetComponent<SpinAction>();
+            shootAction = GetComponent<ShootAction>();
             baseActions = GetComponents<BaseAction>();
             unitHealth = GetComponent<Health>();
         }
@@ -60,7 +62,6 @@ namespace Game.Units
        
         public void UpdateUnitGridPosition()
         {
-
             GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
             if (newGridPosition != lastGridPosition)
             {
@@ -68,7 +69,6 @@ namespace Game.Units
                 lastGridPosition = newGridPosition;
                 LevelGrid.Instance.OnUnitGridPositionChanged?.Invoke();
             }
-
         }
         public void TakeDamage(int amount)
         {
@@ -86,6 +86,11 @@ namespace Game.Units
         {
             return moveAction;
         }
+        public ShootAction GetShootAction() 
+        {
+            return shootAction;
+        }
+
         public SpinAction GetSpinAction()
         {
             return spinAction;
@@ -97,6 +102,10 @@ namespace Game.Units
         public BaseAction[] GetBaseActions()
         {
             return baseActions;
+        }
+        public int GetUnitHealth()
+        {
+            return unitHealth.GetCurrentHealth();
         }
     }
 }

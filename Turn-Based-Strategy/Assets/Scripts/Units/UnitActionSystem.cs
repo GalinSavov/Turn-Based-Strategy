@@ -98,7 +98,7 @@ namespace Game.Units
         private void SetSelectedUnit(Unit unit)
         {
             selectedUnit = unit;
-            SetSelectedAction(selectedUnit.GetMoveAction());
+            SetSelectedAction(selectedUnit.GetActionType<MoveAction>());
             OnSelectedUnitChanged?.Invoke();
 
         }

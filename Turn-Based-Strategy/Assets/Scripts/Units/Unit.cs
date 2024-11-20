@@ -13,9 +13,6 @@ namespace Game.Units
     {
         private const int ACTION_POINTS_MAX = 3;
         private BaseAction[] baseActions; 
-        private MoveAction moveAction;
-        private SpinAction spinAction;
-        private ShootAction shootAction;
         private GridPosition lastGridPosition;
         private int unitActionPoints = ACTION_POINTS_MAX;
         private Health unitHealth;
@@ -25,9 +22,6 @@ namespace Game.Units
         public int UnitActionPoints { get { return unitActionPoints; } set { unitActionPoints = value; }}
         private void Awake()
         {
-            moveAction = GetComponent<MoveAction>();
-            spinAction = GetComponent<SpinAction>();
-            shootAction = GetComponent<ShootAction>();
             baseActions = GetComponents<BaseAction>();
             unitHealth = GetComponent<Health>();
         }
@@ -82,19 +76,6 @@ namespace Game.Units
         {
             return isEnemy;
         }
-        public MoveAction GetMoveAction()
-        {
-            return moveAction;
-        }
-        public ShootAction GetShootAction() 
-        {
-            return shootAction;
-        }
-
-        public SpinAction GetSpinAction()
-        {
-            return spinAction;
-        }
         public GridPosition GetGridPosition()
         {
             return lastGridPosition;
@@ -102,6 +83,15 @@ namespace Game.Units
         public BaseAction[] GetBaseActions()
         {
             return baseActions;
+        }
+        public T GetActionType<T>() where T : BaseAction 
+        {
+            foreach (BaseAction action in baseActions)
+            {
+                if (action is T)
+                    return (T)action;
+            }
+            return null;
         }
         public int GetUnitHealth()
         {

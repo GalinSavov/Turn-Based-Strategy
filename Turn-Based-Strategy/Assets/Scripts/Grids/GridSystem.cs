@@ -1,29 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Grid
 {
-    public class GridSystem
+    public class GridSystem<TGridObject>
     {
         private int width;
         private int height;
         private float cellSize; //used to convert each cell to world space
-        private GridObject[,] gridObjects; //2D array 
+        private TGridObject[,] gridObjects; //2D array 
         
-        public GridSystem(int width, int height,float cellSize)
+        public GridSystem(int width, int height,float cellSize,Func<GridSystem<TGridObject>,GridPosition,TGridObject> createGridObject)
         {
             this.width = width;
             this.height = height;
             this.cellSize = cellSize;
 
-            gridObjects = new GridObject[width,height];
+            gridObjects = new TGridObject[width, height];
             for (int x = 0; x < width; x++)
             {
                 for(int z = 0; z < height; z++)
                 {
                     GridPosition gridPosition = new GridPosition(x,z);
-                    gridObjects[x,z] = new GridObject(gridPosition);
+                    gridObjects[x, z] =createGridObject(this,gridPosition);
                 }
             }
         }
@@ -46,11 +47,11 @@ namespace Game.Grid
                 {
                     GridPosition gridPosition = new GridPosition(x,z);
                     Transform debugPrefab = GameObject.Instantiate(prefab, GetWorldPositionFromGrid(gridPosition),Quaternion.identity);
-                    debugPrefab.GetComponent<cellText>().SetGridObject(GetGridObject(gridPosition));
+                    debugPrefab.GetComponent<DebugCellText>().SetGridObject(GetGridObject(gridPosition) as GridObject);
                 }
             }
         }
-        public GridObject GetGridObject(GridPosition gridPosition)
+        public TGridObject GetGridObject(GridPosition gridPosition)
         {
             return gridObjects[gridPosition.x, gridPosition.z];
         }

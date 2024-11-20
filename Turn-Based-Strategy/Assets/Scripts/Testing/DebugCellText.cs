@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class cellText : MonoBehaviour
+public class DebugCellText : MonoBehaviour
 {
     [SerializeField] private TextMeshPro text;
     private GridObject gridObject;

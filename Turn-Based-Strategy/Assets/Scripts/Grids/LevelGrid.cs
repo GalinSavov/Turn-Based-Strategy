@@ -9,7 +9,7 @@ namespace Game.Grid
     public class LevelGrid : MonoBehaviour
     {
         [SerializeField] Transform cellText;
-        private GridSystem gridSystem;
+        private GridSystem<GridObject> gridSystem;
         public Action OnUnitGridPositionChanged;
 
         public static LevelGrid Instance { get; private set; }
@@ -26,7 +26,7 @@ namespace Game.Grid
 
         void Start()
         {
-            gridSystem = new GridSystem(10, 10, 2f);
+            gridSystem = new GridSystem<GridObject>(10, 10, 2f,(GridSystem<GridObject> g,GridPosition gridPosition)=> new GridObject(g,gridPosition));
             gridSystem.TestGrid(cellText);
         }
         public void AddUnitAtGridPosition(Unit unit, GridPosition gridPosition)

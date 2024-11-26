@@ -47,7 +47,7 @@ namespace Game.Grid
                 {
                     GridPosition gridPosition = new GridPosition(x,z);
                     Transform debugPrefab = GameObject.Instantiate(prefab, GetWorldPositionFromGrid(gridPosition),Quaternion.identity);
-                    debugPrefab.GetComponent<DebugCellText>().SetGridObject(GetGridObject(gridPosition) as GridObject);
+                    debugPrefab.GetComponent<DebugCellText>().SetGridObject(GetGridObject(gridPosition));
                 }
             }
         }
@@ -71,7 +71,11 @@ namespace Game.Grid
         {
             return height;
         }
-        
+        public TGridObject[,] GetGridObjects()
+        {
+            return gridObjects;
+        }
+
     }
 
     

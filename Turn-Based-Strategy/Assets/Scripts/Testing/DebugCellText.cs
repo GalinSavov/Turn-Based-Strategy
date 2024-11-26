@@ -7,12 +7,12 @@ using UnityEngine;
 public class DebugCellText : MonoBehaviour
 {
     [SerializeField] private TextMeshPro text;
-    private GridObject gridObject;
-    public void SetGridObject(GridObject gridObject)
+    private object gridObject;
+    public virtual void SetGridObject(object gridObject)
     {
         this.gridObject = gridObject;
     }
-    private void Update()
+    protected virtual void Update()
     {
         text.text = gridObject.ToString();
     }

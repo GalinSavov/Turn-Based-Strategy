@@ -27,7 +27,7 @@ namespace Game.Grid
         void Start()
         {
             gridSystem = new GridSystem<GridObject>(10, 10, 2f,(GridSystem<GridObject> g,GridPosition gridPosition)=> new GridObject(g,gridPosition));
-            gridSystem.TestGrid(cellText);
+            //gridSystem.TestGrid(cellText);
         }
         public void AddUnitAtGridPosition(Unit unit, GridPosition gridPosition)
         {

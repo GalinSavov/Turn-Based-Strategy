@@ -9,6 +9,7 @@ public class PathfindDebugCellText : DebugCellText
     [SerializeField] private TextMeshPro gCost = null;
     [SerializeField] private TextMeshPro hCost = null;
     [SerializeField] private TextMeshPro fCost = null;
+    [SerializeField] private SpriteRenderer spriteRenderer = null;
     private PathNode pathNode;
     void Start()
     {
@@ -29,5 +30,6 @@ public class PathfindDebugCellText : DebugCellText
         gCost.text = pathNode.GCost.ToString();
         hCost.text = pathNode.HCost.ToString();
         fCost.text = pathNode.FCost.ToString();
+        spriteRenderer.color = pathNode.Walkable ? Color.green : Color.red;
     }
 }

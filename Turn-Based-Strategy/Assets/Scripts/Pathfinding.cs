@@ -37,8 +37,6 @@ public class Pathfinding : MonoBehaviour
         this.cellSize = cellSize;
 
         nodeGridSystem = new GridSystem<PathNode>(width, height, cellSize, (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition));
-        nodeGridSystem.TestGrid(debugPrefab);
-
         CheckForUnwalkables();
     }
 
@@ -49,8 +47,13 @@ public class Pathfinding : MonoBehaviour
             for (int z = 0; z < height; z++)
             {
                 Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(new GridPosition(x, z));
-                float raycastOffsetDistance = 5f;
-                if (Physics.Raycast(worldPosition + Vector3.down * raycastOffsetDistance, Vector3.up, raycastOffsetDistance * 2, unwalkableLayerMask))
+                //this solution is appropriate if Queries Hit Backfaces is disabled
+                //float raycastOffsetDistance = 5f;
+                //if (Physics.Raycast(worldPosition + Vector3.down * raycastOffsetDistance, Vector3.up, raycastOffsetDistance * 2, unwalkableLayerMask))
+                //{
+                //    GetNode(x, z).Walkable = false;
+                //}
+                if (Physics.Raycast(worldPosition + Vector3.down, Vector3.up, 1f, unwalkableLayerMask))
                 {
                     GetNode(x, z).Walkable = false;
                 }

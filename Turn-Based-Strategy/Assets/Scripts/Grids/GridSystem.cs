@@ -63,21 +63,18 @@ namespace Game.Grid
 
             return false;
         }
-        public int GetGridSystemWidth()
+        public int GetWidth()
         {
             return width;
         }
-        public int GetGridSystemHeight()
+        public int GetHeight()
         {
             return height;
         }
-        public TGridObject[,] GetGridObjects()
+        public float GetCellSize()
         {
-            return gridObjects;
+            return cellSize;
         }
 
     }
-
-    
-
 }

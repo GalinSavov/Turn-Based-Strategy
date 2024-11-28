@@ -12,6 +12,10 @@ namespace Game.Grid
         private GridSystem<GridObject> gridSystem;
         public Action OnUnitGridPositionChanged;
 
+        [SerializeField] private int width;
+        [SerializeField] private int height;
+        [SerializeField] private float cellSize;
+
         public static LevelGrid Instance { get; private set; }
 
         private void Awake()
@@ -22,12 +26,12 @@ namespace Game.Grid
                 return;
             }
             Instance = this;
+            gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> g, GridPosition gridPosition) => new GridObject(g, gridPosition));
         }
 
         void Start()
         {
-            gridSystem = new GridSystem<GridObject>(10, 10, 2f,(GridSystem<GridObject> g,GridPosition gridPosition)=> new GridObject(g,gridPosition));
-            //gridSystem.TestGrid(cellText);
+            Pathfinding.Instance.Setup(gridSystem.GetWidth(),gridSystem.GetHeight(),gridSystem.GetCellSize());
         }
         public void AddUnitAtGridPosition(Unit unit, GridPosition gridPosition)
         {
@@ -70,11 +74,11 @@ namespace Game.Grid
         }
         public int GetGridSystemWidth()
         {
-            return gridSystem.GetGridSystemWidth();
+            return gridSystem.GetWidth();
         }
         public int GetGridSystemHeight()
         {
-            return gridSystem.GetGridSystemHeight();
+            return gridSystem.GetHeight();
         }
     }
 

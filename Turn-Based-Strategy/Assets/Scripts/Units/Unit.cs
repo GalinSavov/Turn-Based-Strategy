@@ -80,6 +80,10 @@ namespace Game.Units
         {
             return lastGridPosition;
         }
+        public Vector3 GetWorldPosition()
+        {
+            return transform.position;
+        }
         public BaseAction[] GetBaseActions()
         {
             return baseActions;

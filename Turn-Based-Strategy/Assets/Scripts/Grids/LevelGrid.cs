@@ -32,6 +32,7 @@ namespace Game.Grid
         void Start()
         {
             Pathfinding.Instance.Setup(gridSystem.GetWidth(),gridSystem.GetHeight(),gridSystem.GetCellSize());
+            gridSystem.TestGrid(cellText);
         }
         public void AddUnitAtGridPosition(Unit unit, GridPosition gridPosition)
         {

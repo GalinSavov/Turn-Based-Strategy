@@ -21,12 +21,12 @@ public class ShootAction : BaseAction
     [SerializeField] private float shootingStateTime = 0.2f;
     [SerializeField] private float coolingStateTime = 0.5f;
     [SerializeField] private int shootDamageAmount = 20;
-    
+    [SerializeField] private LayerMask unwalkableLayerMask;
     protected override void Awake()
     {
         base.Awake();
         actionCost = 1;
-        maxDistanceForActionExecution = 2;
+        //maxDistanceForActionExecution = 4;
     }
     void Update()
     {
@@ -100,13 +100,24 @@ public class ShootAction : BaseAction
                 {
                     Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(validGridPosition);
                     if (this.unit.IsEnemy() != targetUnit.IsEnemy())
+                    {
+                       
+                        Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+                        Vector3 shootDir = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
+                        float unitShoulderOffset = 1.7f;
+                        if (Physics.Raycast(unitWorldPosition + Vector3.up * unitShoulderOffset,
+                            shootDir,
+                            Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()), unwalkableLayerMask))
+                        {
+                            continue;
+                        }
                         validGridPositions.Add(validGridPosition);
+                    }
                 }
             }
         }
         return validGridPositions;
     }
-   
     public Unit GetTargetUnit()
     {
         return targetUnit;

@@ -633,7 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886c9d373ffab94479ec9e99952757d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistanceForActionExecution: 0
+  maxDistanceForActionExecution: 3
 --- !u!114 &6407082510836758405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,12 +659,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f00b65d45c2f74548a69bf0289d52bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistanceForActionExecution: 0
+  maxDistanceForActionExecution: 4
   rotateSpeed: 5
   aimingStateTime: 1.5
   shootingStateTime: 0.2
   coolingStateTime: 0.5
   shootDamageAmount: 20
+  unwalkableLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &357204500875248821
 MonoBehaviour:
   m_ObjectHideFlags: 0

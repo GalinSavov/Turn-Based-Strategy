@@ -2128,7 +2128,7 @@ PrefabInstance:
     - target: {fileID: 616461388685096115, guid: 4c63fe5357bd2a748bb2d1fa755730e3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 616461388685096115, guid: 4c63fe5357bd2a748bb2d1fa755730e3,
         type: 3}
@@ -2174,6 +2174,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1154444996442075807, guid: 4c63fe5357bd2a748bb2d1fa755730e3,
+        type: 3}
+      propertyPath: maxDistanceForActionExecution
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584205601208591473, guid: 4c63fe5357bd2a748bb2d1fa755730e3,
+        type: 3}
+      propertyPath: maxDistanceForActionExecution
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2934,7 +2944,7 @@ PrefabInstance:
     - target: {fileID: 616461388685096115, guid: 4c63fe5357bd2a748bb2d1fa755730e3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8
+      value: 7.991437
       objectReference: {fileID: 0}
     - target: {fileID: 616461388685096115, guid: 4c63fe5357bd2a748bb2d1fa755730e3,
         type: 3}
@@ -2981,6 +2991,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1154444996442075807, guid: 4c63fe5357bd2a748bb2d1fa755730e3,
+        type: 3}
+      propertyPath: maxDistanceForActionExecution
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4586342500535075674, guid: 4c63fe5357bd2a748bb2d1fa755730e3,
         type: 3}
       propertyPath: unitRagdoll
@@ -3002,6 +3017,11 @@ PrefabInstance:
         type: 3}
       propertyPath: startingHealth
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7584205601208591473, guid: 4c63fe5357bd2a748bb2d1fa755730e3,
+        type: 3}
+      propertyPath: maxDistanceForActionExecution
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8079361742779853965, guid: 4c63fe5357bd2a748bb2d1fa755730e3,
         type: 3}
@@ -3326,7 +3346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellText: {fileID: 2578274816319970365, guid: d746d0c54a702d44e84f66d7638f3124,
     type: 3}
-  width: 10
+  width: 15
   height: 20
   cellSize: 2
 --- !u!4 &1578110316

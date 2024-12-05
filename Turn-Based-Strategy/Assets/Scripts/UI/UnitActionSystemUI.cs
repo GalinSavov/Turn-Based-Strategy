@@ -13,7 +13,6 @@ namespace Game.UI
         [SerializeField] Transform unitActionButtonsContainer = null;
 
         private List<UnitActionButton> unitActionButtonList;
-
         private void OnEnable()
         {
             UnitActionSystem.Instance.OnSelectedUnitChanged += HandleSelectedUnitChanged;

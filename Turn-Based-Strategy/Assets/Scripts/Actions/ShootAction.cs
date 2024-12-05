@@ -15,6 +15,7 @@ public class ShootAction : BaseAction
     private bool canShootBullet;
     private Coroutine rotateAndAimCoroutine;
     public Action<Unit> OnShootBegin;
+    public static Action<Unit> OnAnyShootBegin;
 
     [SerializeField] private float rotateSpeed = 5f;
     [SerializeField] private float aimingStateTime = 1.5f;
@@ -59,6 +60,7 @@ public class ShootAction : BaseAction
     }
     private void Shoot()
     {
+        OnAnyShootBegin?.Invoke(targetUnit);
         OnShootBegin?.Invoke(targetUnit);
         targetUnit.TakeDamage(shootDamageAmount);
     }

@@ -14,11 +14,9 @@ public class Pathfinding : MonoBehaviour
     private int height;
     private float cellSize;
     private GridSystem<PathNode> nodeGridSystem;
-    private List<PathNode> openList;
     [SerializeField] LayerMask unwalkableLayerMask;
     public static Pathfinding Instance { get; private set; }
 
-    private List<PathNode> closeList;
     [SerializeField] Transform debugPrefab = null;
 
     private void Awake()
@@ -62,67 +60,64 @@ public class Pathfinding : MonoBehaviour
     }
     public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition,out int pathLength)
     {
-        openList = new List<PathNode>(); //nodes to search
-        closeList = new List<PathNode>(); //nodes already searched
+            Heap<PathNode> openHeap = new Heap<PathNode>(height * width);
+            List<PathNode> closeList = new List<PathNode>(); //nodes already searched
+            PathNode startNode = nodeGridSystem.GetGridObject(startGridPosition);
+            PathNode endNode = nodeGridSystem.GetGridObject(endGridPosition);
+            openHeap.Add(startNode); //add the first node to the open heap
 
-        PathNode startNode = nodeGridSystem.GetGridObject(startGridPosition);
-        PathNode endNode = nodeGridSystem.GetGridObject(endGridPosition);
-        openList.Add(startNode); //add the first node to the open list
-
-        for (int x = 0; x < nodeGridSystem.GetWidth(); x++)
-        {
-            for (int z = 0; z < nodeGridSystem.GetHeight(); z++)
+            for (int x = 0; x < nodeGridSystem.GetWidth(); x++)
             {
-                //reset all the path nodes before doing any other logic
-                PathNode pathNode = nodeGridSystem.GetGridObject(new GridPosition(x, z));
-                pathNode.GCost = int.MaxValue;
-                pathNode.HCost = 0;
-                pathNode.ParentNode = null;
-            }
-        }
-        startNode.GCost = 0; //0 because it is where the path starts
-        startNode.HCost = CalculateDistance(startGridPosition, endGridPosition);
-
-        while (openList.Count > 0)
-        {
-            PathNode currentNode = GetLowestCostNode(openList);
-            if (currentNode == endNode)
-            {
-                //reached final node
-                pathLength = endNode.FCost;
-                return CalculatePath(endNode);
-            }
-            openList.Remove(currentNode);//node already searched
-            closeList.Add(currentNode);
-
-
-            foreach (PathNode neighbourNode in GetNodeNeighbours(currentNode))
-            {
-                if (closeList.Contains(neighbourNode)) // check if the neighbour node was already searched
-                    continue;
-
-                if (!neighbourNode.Walkable)
+                for (int z = 0; z < nodeGridSystem.GetHeight(); z++)
                 {
-                    closeList.Add(neighbourNode);
-                    continue;
-                }
-
-                int gCost = currentNode.GCost + CalculateDistance(currentNode.GetGridPosition(), neighbourNode.GetGridPosition());
-                if (gCost < neighbourNode.GCost || !openList.Contains(neighbourNode))
-                {
-                    neighbourNode.ParentNode = currentNode;
-                    neighbourNode.GCost = gCost;
-                    neighbourNode.HCost = CalculateDistance(neighbourNode.GetGridPosition(), endGridPosition);
-                    openList.Add(neighbourNode);
-
-                    if(!openList.Contains(neighbourNode))
-                        openList.Add(neighbourNode);
+                    //reset all the path nodes before doing any other logic
+                    PathNode pathNode = nodeGridSystem.GetGridObject(new GridPosition(x, z));
+                    pathNode.GCost = int.MaxValue;
+                    pathNode.HCost = 0;
+                    pathNode.ParentNode = null;
                 }
             }
-        }
-        pathLength = 0;
-        return null;
+            startNode.GCost = 0; //0 because it is where the path starts
+            startNode.HCost = CalculateDistance(startGridPosition, endGridPosition);
+
+            while (openHeap.ItemCount() > 0)
+            {
+                PathNode currentNode = GetLowestCostNode(openHeap);
+                if (currentNode == endNode)
+                {
+                    //reached final node
+                    pathLength = endNode.FCost;
+                    return CalculatePath(endNode);
+                }
+                closeList.Add(currentNode);
+
+                foreach (PathNode neighbourNode in GetNodeNeighbours(currentNode))
+                {
+                    if (closeList.Contains(neighbourNode)) // check if the neighbour node was already searched
+                        continue;
+
+                    if (!neighbourNode.Walkable)
+                    {
+                        closeList.Add(neighbourNode);
+                        continue;
+                    }
+
+                    int gCost = currentNode.GCost + CalculateDistance(currentNode.GetGridPosition(), neighbourNode.GetGridPosition());
+                    if (gCost < neighbourNode.GCost || !openHeap.Contains(neighbourNode))
+                    {
+                        neighbourNode.ParentNode = currentNode;
+                        neighbourNode.GCost = gCost;
+                        neighbourNode.HCost = CalculateDistance(neighbourNode.GetGridPosition(), endGridPosition);
+
+                        if (!openHeap.Contains(neighbourNode))
+                            openHeap.Add(neighbourNode);
+                    }
+                }
+            }
+            pathLength = 0;
+            return null;
     }
+
 
     private List<GridPosition> CalculatePath(PathNode endNode)
     {
@@ -156,16 +151,9 @@ public class Pathfinding : MonoBehaviour
         int zDistance = Mathf.Abs(gridPosition.z);
         return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance) + MOVE_STRAIGHT_COST * Mathf.Abs(xDistance - zDistance);
     }
-    private PathNode GetLowestCostNode(List<PathNode> pathNodes)
+    private PathNode GetLowestCostNode(Heap<PathNode> pathNodes)
     {
-        PathNode currentNode = pathNodes[0];
-        foreach (PathNode node in pathNodes)
-        {
-            if (node.FCost < currentNode.FCost || node.FCost == currentNode.FCost && node.HCost < currentNode.HCost) //check for a more efficient node
-            {
-                currentNode = node;
-            }
-        }
+        PathNode currentNode = pathNodes.RemoveFirst();
         return currentNode;
     }
     private PathNode GetNode(int x, int z)

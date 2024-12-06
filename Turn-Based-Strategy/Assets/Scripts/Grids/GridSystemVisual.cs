@@ -76,9 +76,16 @@ namespace Game.Grid
                 case SpinAction:
                     gridVisualColor = GridVisualColor.Blue;
                     break;
-                case ShootAction:
+                case GrenadeAction:
+                    gridVisualColor = GridVisualColor.White;
+                    break;
+                case ShootAction shootAction:
                     gridVisualColor = GridVisualColor.Red;
-                    GridVisualHelper(UnitActionSystem.Instance.GetSelectedUnit().GetGridPosition(), 3, GridVisualColor.RedSoft);
+                    GridVisualHelper(UnitActionSystem.Instance.GetSelectedUnit().GetGridPosition(), shootAction.GetMaxActionDistance(), GridVisualColor.RedSoft);
+                    break;
+                case SwordAction swordAction:
+                    gridVisualColor = GridVisualColor.Red;
+                    GridVisualHelperSquare(UnitActionSystem.Instance.GetSelectedUnit().GetGridPosition(), swordAction.GetMaxActionDistance(), GridVisualColor.RedSoft);
                     break;
                 default:
                     gridVisualColor = GridVisualColor.White;
@@ -93,7 +100,6 @@ namespace Game.Grid
             {
                 for (int z = -range; z <= range; z++)
                 {
-
                     GridPosition currentGridPosition = gridPosition + new GridPosition(x, z);
                     if (x + z > range)
                         continue;
@@ -104,6 +110,22 @@ namespace Game.Grid
                 }
             }
             ShowGridPositionsList(gridPositions,gridVisualColor);
+        }
+        private void GridVisualHelperSquare(GridPosition gridPosition, int range, GridVisualColor gridVisualColor)
+        {
+            List<GridPosition> gridPositions = new List<GridPosition>();
+            for (int x = -range; x <= range; x++)
+            {
+                for (int z = -range; z <= range; z++)
+                {
+                    GridPosition currentGridPosition = gridPosition + new GridPosition(x, z);
+                    if (!LevelGrid.Instance.IsGridPositionWithinBounds(currentGridPosition))
+                        continue;
+
+                    gridPositions.Add(currentGridPosition);
+                }
+            }
+            ShowGridPositionsList(gridPositions, gridVisualColor);
         }
         public void HideAllGridPositions()
         {

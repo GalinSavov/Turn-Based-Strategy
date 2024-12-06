@@ -44,7 +44,13 @@ public class GrenadeAction : BaseAction
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
                 if (testDistance > maxDistanceForActionExecution)
                     continue;
-                   
+
+                if(LevelGrid.Instance.GetUnitsAtGridPosition(validGridPosition).Count > 0)
+                {
+                    Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(validGridPosition);
+                    if (!targetUnit.IsEnemy())
+                        continue;
+                } 
                 validGridPositions.Add(validGridPosition);  
             }
         }

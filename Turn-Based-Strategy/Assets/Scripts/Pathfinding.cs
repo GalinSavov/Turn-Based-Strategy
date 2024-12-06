@@ -156,7 +156,7 @@ public class Pathfinding : MonoBehaviour
         PathNode currentNode = pathNodes.RemoveFirst();
         return currentNode;
     }
-    private PathNode GetNode(int x, int z)
+    public PathNode GetNode(int x, int z)
     {
         return nodeGridSystem.GetGridObject(new GridPosition(x, z));
     }

@@ -44,6 +44,10 @@ public class GrenadeProjectile : MonoBehaviour
                 {
                     targetUnit.TakeDamage(25);
                 }
+                if (collider.TryGetComponent<DestructableCrate>(out DestructableCrate crate))
+                {
+                    crate.Damage();
+                }
             }
             Destroy(gameObject);
             trailRenderer.transform.parent = null;

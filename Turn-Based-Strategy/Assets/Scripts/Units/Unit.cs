@@ -11,7 +11,7 @@ namespace Game.Units
 {
     public class Unit : MonoBehaviour
     {
-        private const int ACTION_POINTS_MAX = 3;
+        private const int ACTION_POINTS_MAX = 9;
         private BaseAction[] baseActions; 
         private GridPosition lastGridPosition;
         private int unitActionPoints = ACTION_POINTS_MAX;
@@ -66,6 +66,7 @@ namespace Game.Units
         }
         public void TakeDamage(int amount)
         {
+
             unitHealth.TakeDamage(amount);
         }
         public bool CanSpendActionPointsToTakeAction(BaseAction action)

@@ -17,7 +17,8 @@ public class UnitRagdollSpawner : MonoBehaviour
 
     private void HandleOnDead()
     {
-        GameObject ragdoll = Instantiate(unitRagdollPrefab,transform.position,transform.rotation);
+        Vector3 randomFallDirection = new Vector3(UnityEngine.Random.Range(-1f,1f),0,UnityEngine.Random.Range(-1f,1f));
+        GameObject ragdoll = Instantiate(unitRagdollPrefab,transform.position + randomFallDirection,transform.rotation);
         UnitRagdoll unitRagdoll = ragdoll.GetComponent<UnitRagdoll>();
         unitRagdoll.Setup(originalUnitRootBone);
     }

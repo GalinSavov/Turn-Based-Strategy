@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class Door : MonoBehaviour,IInteractable
 {
     private GridPosition gridPosition;
     [SerializeField] private bool isOpen = false;
@@ -11,7 +11,8 @@ public class Door : MonoBehaviour
     private void Start()
     {
         this.gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-        LevelGrid.Instance.SetDoorAtGridPosition(gridPosition, this);
+        LevelGrid.Instance.SetInteractableAtGridPosition(gridPosition, this);
+        Pathfinding.Instance.GetNode(gridPosition.x, gridPosition.z).Walkable = false;
     }
     public void Interact()
     {

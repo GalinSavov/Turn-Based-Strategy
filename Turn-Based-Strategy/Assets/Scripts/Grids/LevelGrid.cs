@@ -81,13 +81,13 @@ namespace Game.Grid
         {
             return gridSystem.GetHeight();
         }
-        public Door GetDoorAtGridPosition(GridPosition gridPosition)
+        public IInteractable GetInteractableAtGridPosition(GridPosition gridPosition)
         {
-            return gridSystem.GetGridObject(gridPosition).Door;
+            return gridSystem.GetGridObject(gridPosition).Interactable;
         }
-        public void SetDoorAtGridPosition(GridPosition gridPosition,Door door)
+        public void SetInteractableAtGridPosition(GridPosition gridPosition,IInteractable interactable)
         {
-            gridSystem.GetGridObject(gridPosition).Door = door;
+            gridSystem.GetGridObject(gridPosition).Interactable = interactable;
         }
     }
 

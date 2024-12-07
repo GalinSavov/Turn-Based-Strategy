@@ -81,6 +81,14 @@ namespace Game.Grid
         {
             return gridSystem.GetHeight();
         }
+        public Door GetDoorAtGridPosition(GridPosition gridPosition)
+        {
+            return gridSystem.GetGridObject(gridPosition).Door;
+        }
+        public void SetDoorAtGridPosition(GridPosition gridPosition,Door door)
+        {
+            gridSystem.GetGridObject(gridPosition).Door = door;
+        }
     }
 
 }

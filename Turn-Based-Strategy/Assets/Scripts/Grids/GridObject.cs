@@ -10,6 +10,8 @@ namespace Game.Grid
         private GridSystem<GridObject> gridSystem;
         private GridPosition gridPosition;
         private List<Unit> units;
+        private Door door;
+        public Door Door { get => door; set => door = value; }
         public GridObject(GridSystem<GridObject> gridSystem,GridPosition gridPosition)
         {
             this.gridSystem = gridSystem;

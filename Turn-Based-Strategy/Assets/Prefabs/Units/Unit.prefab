@@ -549,6 +549,7 @@ GameObject:
   - component: {fileID: 5469561334801266213}
   - component: {fileID: 339146636038852303}
   - component: {fileID: 8104883417206956627}
+  - component: {fileID: 5771924888704066585}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -748,6 +749,19 @@ MonoBehaviour:
   afterHitStateTime: 0.8
   actionDamage: 75
   rotateSpeed: 5
+--- !u!114 &5771924888704066585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264491033231720698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb0cd1d1cd5e334bbd2318846fe413d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistanceForActionExecution: 1
 --- !u!1 &8362986184617749299
 GameObject:
   m_ObjectHideFlags: 0

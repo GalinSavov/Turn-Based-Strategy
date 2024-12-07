@@ -48,7 +48,7 @@ namespace Game.Units
 
         private void HandleSelectedAction()
         {
-            if (Mouse.current.leftButton.isPressed)
+            if (InputManager.Instance.IsLeftMouseButtonPressed())
             {
                 GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorldPosition.GetPosition());
                 if (selectedAction.IsValidGridPosition(mouseGridPosition))
@@ -64,9 +64,9 @@ namespace Game.Units
         }
         private bool TryHandleSelectedUnit()
         {
-            if (Mouse.current.leftButton.isPressed)
+            if (InputManager.Instance.IsLeftMouseButtonPressed())
             {
-                Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+                Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.GetMouseScreenPosition());
 
                 if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, unitLayerMask))
                 {

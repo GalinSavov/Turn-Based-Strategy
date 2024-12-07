@@ -8,8 +8,7 @@ public class CameraController : MonoBehaviour
 {
     private CinemachineTransposer cinemachineTransposer;
     private Vector3 followOffset;
-    private TurnBasedStrategy inputActions;
-
+    
     private const float MIN_FOLLOW_OFFSET = 4f;
     private const float MAX_FOLLOW_OFFSET = 12f;
 
@@ -17,21 +16,11 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float cameraRotateSpeed = 2f;
     [SerializeField] private float zoomSpeed = 2f;
     [SerializeField] private CinemachineVirtualCamera cinemachineCamera = null;
-    private void OnEnable()
-    {
-        inputActions.Enable();
-    }
-
+   
     private void Awake()
-    {
-        inputActions = new TurnBasedStrategy();
+    {  
         cinemachineTransposer = cinemachineCamera.GetCinemachineComponent<CinemachineTransposer>();
         followOffset = cinemachineTransposer.m_FollowOffset;
-    }
-
-    private void OnDisable()
-    {
-        inputActions.Disable();
     }
     void Update()
     {
@@ -42,31 +31,18 @@ public class CameraController : MonoBehaviour
 
     private void MoveCamera()
     {
-        Vector3 inputMoveDirection = Vector3.zero;
-        inputMoveDirection += inputActions.Camera.CameraMove.ReadValue<Vector3>();
+        Vector3 moveVector = transform.forward * InputManager.Instance.GetCameraMovementInput().z + 
+            transform.right * InputManager.Instance.GetCameraMovementInput().x;
 
-        Vector3 moveVector = transform.forward * inputMoveDirection.z + transform.right * inputMoveDirection.x;
         transform.position += moveVector * cameraMoveSpeed * Time.deltaTime;
     }
     private void RotateCamera()
     {
-        Vector3 moveRotation = Vector3.zero;
-        if (inputActions.Camera.CameraRotateLeft.IsPressed())
-            moveRotation.y += 1f;
-        else if (inputActions.Camera.CameraRotateRight.IsPressed())
-            moveRotation.y -= 1f;
-
-        transform.rotation *= Quaternion.Euler(moveRotation * Time.deltaTime * cameraRotateSpeed);
-        
+        transform.rotation *= Quaternion.Euler(InputManager.Instance.GetCameraRotationInput() * Time.deltaTime * cameraRotateSpeed); 
     }
     private void ZoomCamera()
     {
-        if (Mouse.current.scroll.value.y > 0)
-            followOffset.y += zoomSpeed;
-
-        else if(Mouse.current.scroll.value.y < 0)
-            followOffset.y -= zoomSpeed;
- 
+        followOffset.y += InputManager.Instance.GetCameraZoomInput();
         followOffset.y = Mathf.Clamp(followOffset.y, MIN_FOLLOW_OFFSET, MAX_FOLLOW_OFFSET);
         cinemachineTransposer.m_FollowOffset = Vector3.Lerp(cinemachineTransposer.m_FollowOffset, followOffset, Time.deltaTime * zoomSpeed);
     }

@@ -92,6 +92,15 @@ namespace Game.Grid
                     break;
             }
             ShowGridPositionsList(UnitActionSystem.Instance.GetSelectedAction().GetValidActionGridPositions(),gridVisualColor);
+
+            for(int x = 0; x < LevelGrid.Instance.GetGridSystemWidth(); x++)
+            {
+                for(int z  = 0; z < LevelGrid.Instance.GetGridSystemHeight(); z++)
+                {
+                    gridSystemVisualSinglesArray[x,z].Show(GetGridVisualTypeMaterial(gridVisualColor));
+
+                }
+            }
         }
         private void GridVisualHelper(GridPosition gridPosition, int range,GridVisualColor gridVisualColor)
         {

@@ -13,7 +13,7 @@ public class Pathfinding : MonoBehaviour
     private int width;
     private int height;
     private float cellSize;
-    private GridSystem<PathNode> nodeGridSystem;
+    private GridSystemHex<PathNode> nodeGridSystem;
     [SerializeField] LayerMask unwalkableLayerMask;
     public static Pathfinding Instance { get; private set; }
 
@@ -34,7 +34,7 @@ public class Pathfinding : MonoBehaviour
         this.height = height;
         this.cellSize = cellSize;
 
-        nodeGridSystem = new GridSystem<PathNode>(width, height, cellSize, (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition));
+        nodeGridSystem = new GridSystemHex<PathNode>(width, height, cellSize, (GridSystemHex<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition));
         CheckForUnwalkables();
     }
 

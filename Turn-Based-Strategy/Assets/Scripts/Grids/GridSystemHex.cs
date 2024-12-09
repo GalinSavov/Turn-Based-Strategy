@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace Game.Grid
 {
-    public class GridSystem<TGridObject>
+    public class GridSystemHex<TGridObject>
     {
         private int width;
         private int height;
         private float cellSize; //used to convert each cell to world space
         private TGridObject[,] gridObjects; //2D array 
         
-        public GridSystem(int width, int height,float cellSize,Func<GridSystem<TGridObject>,GridPosition,TGridObject> createGridObject)
+        public GridSystemHex(int width, int height,float cellSize,Func<GridSystemHex<TGridObject>,GridPosition,TGridObject> createGridObject)
         {
             this.width = width;
             this.height = height;
@@ -30,7 +30,18 @@ namespace Game.Grid
         }
         public Vector3 GetWorldPositionFromGrid(GridPosition gridPosition)
         {
-            return new Vector3(gridPosition.x, 0, gridPosition.z) * cellSize;
+            float halfCellSize = cellSize / 2;
+            float quarterCellSize = halfCellSize / 2;
+            float hexOffset = halfCellSize + quarterCellSize;
+            if(gridPosition.z % 2 != 0)
+            {
+                return new Vector3((gridPosition.x * cellSize) + halfCellSize,0, gridPosition.z * hexOffset);
+            }
+            else if(gridPosition.z % 2 == 0)
+            {
+                return new Vector3(gridPosition.x * cellSize, 0, gridPosition.z * hexOffset);
+            }
+            return Vector3.forward;
         }
 
         public GridPosition GetGridPositionFromWorld(Vector3 worldPosition)

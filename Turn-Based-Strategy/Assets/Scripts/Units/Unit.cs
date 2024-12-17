@@ -31,7 +31,6 @@ namespace Game.Units
             unitHealth.OnDead += HandleUnitOnDie;
             OnAnyUnitSpawned?.Invoke(this);
             lastGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-            transform.position = LevelGrid.Instance.GetWorldPosition(lastGridPosition);
             LevelGrid.Instance.AddUnitAtGridPosition(this, lastGridPosition);
         }
         private void Update()

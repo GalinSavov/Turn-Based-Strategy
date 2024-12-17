@@ -7,12 +7,12 @@ namespace Game.Grid
 {
     public class GridObject
     {
-        private GridSystemHex<GridObject> gridSystem;
+        private GridSystem<GridObject> gridSystem;
         private GridPosition gridPosition;
         private List<Unit> units;
         private IInteractable interactable;
         public IInteractable Interactable { get => interactable; set => interactable = value; }
-        public GridObject(GridSystemHex<GridObject> gridSystem,GridPosition gridPosition)
+        public GridObject(GridSystem<GridObject> gridSystem,GridPosition gridPosition)
         {
             this.gridSystem = gridSystem;
             this.gridPosition = gridPosition;

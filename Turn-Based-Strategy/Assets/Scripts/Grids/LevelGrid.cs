@@ -9,7 +9,7 @@ namespace Game.Grid
     public class LevelGrid : MonoBehaviour
     {
         [SerializeField] Transform cellText;
-        private GridSystemHex<GridObject> gridSystem;
+        private GridSystem<GridObject> gridSystem;
         public Action OnUnitGridPositionChanged;
 
         [SerializeField] private int width;
@@ -26,7 +26,7 @@ namespace Game.Grid
                 return;
             }
             Instance = this;
-            gridSystem = new GridSystemHex<GridObject>(width, height, cellSize, (GridSystemHex<GridObject> g, GridPosition gridPosition) => new GridObject(g, gridPosition));
+            gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> g, GridPosition gridPosition) => new GridObject(g, gridPosition));
         }
 
         void Start()
